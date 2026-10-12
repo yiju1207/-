@@ -320,7 +320,6 @@ $("#importOutlineBtn").addEventListener("click", () => importOutline(true));
 $("#buildEssayBtn").addEventListener("click", buildEssay);
 $("#buildUpgradeBtn").addEventListener("click", buildUpgradeAdvice);
 $("#downloadBtn").addEventListener("click", downloadReport);
-$("#printBtn").addEventListener("click", () => window.print());
 $("#resetBtn").addEventListener("click", resetAll);
 
 const dialog = $("#chartDialog");
@@ -329,11 +328,12 @@ $("#chartButton").addEventListener("click", () => dialog.showModal());
 $("#closeChart").addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
 
-$("#finishBtn").addEventListener("click", () => {
+$("#saveDraftBtn").addEventListener("click", () => {
+  save();
   const checks = [1,2,3,4,5].filter(i => state[`check${i}`]).length;
-  $("#finishMessage").textContent = checks === 5 ? "五項檢核都完成了，可以開始正式寫作。" : `你已完成 ${checks} 項檢核，再看看還能補強哪裡。`;
-  if (checks === 5) $("#celebration").hidden = false;
+  $("#finishMessage").textContent = `✓ 整理稿已儲存在這台裝置（完成 ${checks}/5 項自我檢核）。接著可下載 Word 檔。`;
+  $("#saveDraftBtn").textContent = "已儲存整理稿";
+  setTimeout(() => { $("#saveDraftBtn").textContent = "儲存整理稿"; }, 1800);
 });
-$("#closeCelebration").addEventListener("click", () => $("#celebration").hidden = true);
 
 renderSkills(); renderTraits(); renderActions(); bindSavedFields(); showStep(Number(state.currentStep) || 0); updateProgress(); updateConnection();
