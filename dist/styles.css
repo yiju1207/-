@@ -148,11 +148,6 @@ textarea:focus, input:focus { outline: 0; border-color: var(--teal) !important; 
 .chart-dialog::backdrop { background: rgba(13,28,42,.72); }
 .chart-dialog img { width: 100%; display: block; }
 .dialog-close { position: sticky; float: right; top: 0; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--navy); color: #fff; font-size: 1.5rem; }
-.celebration { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1rem; background: rgba(14,35,53,.72); }
-.celebration[hidden] { display: none; }
-.celebration > div { width: min(420px,100%); padding: 2.2rem; text-align: center; border-radius: 22px; background: #fff; box-shadow: var(--shadow); }
-.celebration span { width: 72px; height: 72px; display: grid; place-items: center; margin: 0 auto 1rem; border-radius: 50%; background: #dff3ef; color: var(--teal); font-size: 2rem; font-weight: 900; }
-
 @media (max-width: 900px) {
   .shell { grid-template-columns: minmax(0,1fr); width: 100%; }
   .step-nav, .lesson-area { min-width: 0; width: 100%; }
@@ -185,7 +180,7 @@ textarea:focus, input:focus { outline: 0; border-color: var(--teal) !important; 
 }
 @media print {
   body { background: #fff; }
-  .site-header, .progress-wrap, .step-nav, .panel-footer, .button, .chart-toolbar button, .step-badge, .celebration { display: none !important; }
+  .site-header, .progress-wrap, .step-nav, .panel-footer, .button, .chart-toolbar button, .step-badge { display: none !important; }
   .shell { display: block; max-width: none; padding: 0; }
   .step-panel { display: block !important; min-height: 0; border: 0; box-shadow: none; page-break-after: always; padding: .2in; }
   .step-panel:last-of-type { page-break-after: auto; }
