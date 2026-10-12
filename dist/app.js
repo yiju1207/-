@@ -201,6 +201,89 @@ function buildEssay() {
   save();
 }
 
+function studentParagraphs() {
+  const article = (state.articleDraft || "").trim();
+  if (!article) return [];
+  const separated = article.split(/\n\s*\n/).map(text => text.trim()).filter(Boolean);
+  if (separated.length > 1) return separated;
+  const sentences = article.match(/[^。！？]+[。！？]?/g) || [article];
+  const size = Math.max(1, Math.ceil(sentences.length / 5));
+  return Array.from({ length: 5 }, (_, index) => sentences.slice(index * size, (index + 1) * size).join("").trim()).filter(Boolean);
+}
+
+function fiveLevelSample(sourceParagraphs) {
+  const source = index => (sourceParagraphs[index] || "").trim();
+  const chartIdea = state.chartSentence || state.chartConnection || source(1) || "眼前的每一次選擇，都在悄悄塑造未來的我";
+  const scene = state.storyBackground || "一次需要完成重要任務的經驗";
+  const action = state.storyAction || "我先釐清問題，再一步一步完成該做的事";
+  const result = state.storyResult || "事情終於有了進展，我也得到新的肯定";
+  const insight = state.storyInsight || "我發現自己願意面對困難，也能在行動中持續調整";
+  const direction = state.futureDirection || "適合自己的方向";
+  const reason = state.futureReason || "這個方向能讓我運用已有的能力，也願意接受新的挑戰";
+  const value = state.futureValue || "把能力用在真正重要的事情上";
+  const hope = state.futureHope || "成為能為自己負責，也能為他人帶來幫助的人";
+  const steps = actionSummary() || "第一步，我會安排固定時間累積能力；第二步，我會主動請教師長與同學；第三步，我會用作品與紀錄檢查自己的進步";
+  const adjustment = state.adjustment || "我會重新檢查原因、縮小目標，並向可信任的人尋求協助";
+  const storyParagraph = state.storyBackground || state.storyAction || state.storyResult || state.storyInsight
+    ? `我曾經歷${withPeriod(scene).replace(/。$/, "")}。當時，${withPeriod(action)}過程並不總是順利，但我沒有只停在擔心裡，而是觀察問題、調整做法。${withPeriod(result)}回頭看這段經驗，我更確定：${withPeriod(insight)}這份認識不是一句空泛的稱讚，而是我真正做過、也願意繼續累積的能力。`
+    : `${withPeriod(source(2) || "一次需要完成重要任務的經驗，讓我看見自己的能力")}回頭看這段經驗，重要的不只是事情最後有沒有成功，而是我曾經面對困難、調整方法，也更清楚自己有哪些可以繼續發展的能力。`;
+  const futureParagraph = state.futureDirection || state.futureReason || state.futureValue || state.futureHope
+    ? `因此，未來我想朝${direction}前進。這不只是因為${withPeriod(reason).replace(/。$/, "")}，更因為我重視${withPeriod(value).replace(/。$/, "")}。我期待自己能${withPeriod(hope)}也許方向還會隨著經驗改變，但只要清楚知道選擇的理由，我就能在變動中繼續前進。`
+    : `${withPeriod(source(3) || "認識自己的能力之後，我也逐漸看見想前往的方向")}選擇未來不能只憑一時興趣，我還要說清楚自己為什麼重視這個方向，以及希望透過它成為怎樣的人。`;
+  const actionParagraph = state.actions.some(item => Object.values(item).some(Boolean)) || state.adjustment
+    ? `想法必須化成行動，才不會只停在想像。${withPeriod(steps)}如果遇到困難，${withPeriod(adjustment)}我不要求自己一步就抵達終點，而是願意每天多前進一點。當今天的選擇累積成明天的能力，我相信，未來的我會感謝現在這個願意開始的自己。`
+    : `${withPeriod(source(4) || "想法必須化成行動，才不會只停在想像")}接下來，我會把目標拆成能執行、能檢查的小步驟，也會在遇到困難時調整方法、主動求助。當今天的選擇累積成明天的能力，我相信，未來的我會感謝現在這個願意開始的自己。`;
+
+  return [
+    `我想更誠實地認識現在的自己，我想更勇敢地看見未來的方向，我也想更踏實地用行動靠近理想。${withPeriod(chartIdea)}這些想法讓我明白：未來不是突然抵達的地方，而是從今天的每一個決定慢慢長出來的。`,
+    `${withPeriod(source(1) || `圖文資料呈現了能力與未來發展之間的關係`)}對我來說，真正重要的不是把熱門能力一一列出，而是回頭追問：哪些能力已經出現在我的生活裡？哪些能力還需要練習？當我把圖表與自己的經驗放在一起思考，原本遙遠的未來，也開始有了清楚的輪廓。`,
+    storyParagraph,
+    futureParagraph,
+    actionParagraph
+  ].join("\n\n");
+}
+
+function buildUpgradeAdvice() {
+  if (!(state.articleDraft || "").trim()) {
+    alert("請先完成上方的「我的完整作文」，再產生提升建議。");
+    $('[data-save="articleDraft"]').focus();
+    return;
+  }
+
+  const article = state.articleDraft.trim();
+  const paragraphs = studentParagraphs();
+  const length = article.replace(/\s/g, "").length;
+  const punctuationCount = (article.match(/[，。！？；：「」]/g) || []).length;
+  const transitionCount = (article.match(/首先|接著|後來|因此|然而|最後|於是|不但|更|如果|即使/g) || []).length;
+  const detailCount = (article.match(/當時|看見|聽見|想到|感到|說|問|回答|立刻|慢慢|終於/g) || []).length;
+  const parallelCount = ((paragraphs[0] || "").match(/我(?:也)?想/g) || []).length;
+  const strengths = [];
+  const priorities = [];
+
+  if (paragraphs.length >= 5) strengths.push(`文章已有 ${paragraphs.length} 個段落，具備分段組織的基礎。`);
+  else priorities.push(`目前辨識到 ${paragraphs.length} 個段落，建議整理成五段：引題、圖文理解、具體經驗、未來方向、行動展望。`);
+  if (parallelCount >= 3) strengths.push("第一段已使用三個相近句型形成排比，開頭有節奏。"
+  ); else priorities.push("第一段可補上三個「我想……」句型，形成排比並集中主題。"
+  );
+  if (length >= 500) strengths.push(`全文約 ${length} 字，已有足夠篇幅發展觀點與事例。`);
+  else priorities.push(`全文約 ${length} 字，可在關鍵事件補上背景、行動、轉折、結果與感受，避免只做概略說明。`);
+  if (detailCount >= 3) strengths.push("文中已有動作、感受或場景詞語，內容較具體。"
+  ); else priorities.push("第三段可加入一個看得見的動作、一句當時的想法，以及事件結果，讓經驗更有畫面。"
+  );
+  if (transitionCount >= 3) strengths.push("文章使用了轉折或承接語，段落之間較容易連貫。"
+  ); else priorities.push("可加入「然而、因此、後來、最後」等承接語，清楚呈現思考與事件的推進。"
+  );
+  if (punctuationCount >= Math.max(8, Math.floor(length / 35))) strengths.push("標點使用密度大致足夠，朗讀時較容易停頓。"
+  ); else priorities.push("部分句子可能過長；朗讀時若一口氣念不完，可用逗號或句號拆開。"
+  );
+  if (!priorities.length) priorities.push("整體已具備五級分方向的主要條件；下一步可刪除重複語句，並把最重要的感受寫得更精準。"
+  );
+
+  state.upgradeAdvice = `【文章檢視】\n全文約 ${length} 字，共辨識到 ${paragraphs.length} 個段落。\n\n【目前做得好的地方】\n${strengths.length ? strengths.map((text, i) => `${i + 1}. ${text}`).join("\n") : "1. 已完成一篇完整草稿，現在可以從內容與表達兩方面繼續修整。"}\n\n【優先修改建議】\n${priorities.map((text, i) => `${i + 1}. ${text}`).join("\n")}\n\n【五級分方向提升範文】\n${fiveLevelSample(paragraphs)}\n\n【使用方法】\n請圈出範文中值得學習的段落結構、轉折語或細節寫法，再回到自己的原文修改；保留真實經驗與個人語氣，不要整篇照抄。`;
+  $('[data-save="upgradeAdvice"]').value = state.upgradeAdvice;
+  save();
+}
+
 function textReport() {
   const traitText = state.traits.filter(t => Object.values(t).some(Boolean)).map((t,i) => `${i+1}. ${t.trait || ""}｜${t.scene || ""}｜${t.evidence || ""}｜${t.concept || ""}`).join("\n");
   const actionText = state.actions.map((a,i) => `${i+1}. ${a.action || ""}｜${a.time || ""}｜${a.help || ""}｜${a.proof || ""}`).join("\n");
@@ -235,6 +318,7 @@ $("#buildEvidenceSentence").addEventListener("click", buildEvidence);
 $("#buildThesis").addEventListener("click", buildThesis);
 $("#importOutlineBtn").addEventListener("click", () => importOutline(true));
 $("#buildEssayBtn").addEventListener("click", buildEssay);
+$("#buildUpgradeBtn").addEventListener("click", buildUpgradeAdvice);
 $("#downloadBtn").addEventListener("click", downloadReport);
 $("#printBtn").addEventListener("click", () => window.print());
 $("#resetBtn").addEventListener("click", resetAll);
