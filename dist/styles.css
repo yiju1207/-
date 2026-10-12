@@ -126,6 +126,14 @@ textarea:focus, input:focus { outline: 0; border-color: var(--teal) !important; 
 .checklist { display: grid; gap: .7rem; }
 .checklist label { display: flex; gap: .7rem; align-items: flex-start; line-height: 1.5; }
 .checklist input { width: 19px; height: 19px; accent-color: var(--teal); }
+.upgrade-builder { margin-top: 1.3rem; padding: 1.2rem; border: 1px solid #d8c7e5; border-radius: 18px; background: linear-gradient(135deg, #f7f0fb, #fff8e8 52%, #edf8f4); }
+.upgrade-heading { display: flex; justify-content: space-between; align-items: center; gap: 1.2rem; margin-bottom: 1rem; }
+.upgrade-heading h3 { margin-bottom: .4rem; font-size: 1.3rem; }
+.upgrade-heading p:last-child { max-width: 720px; margin: 0; color: var(--muted); line-height: 1.6; }
+.upgrade-button { flex: 0 0 auto; color: #fff; border-color: #8a5ba5; background: linear-gradient(135deg, #8a5ba5, #d56f91); }
+.upgrade-field { padding: 1rem; border-radius: 14px; background: rgba(255,255,255,.8); }
+.upgrade-field textarea { min-height: 32rem; border: 1px solid #c9b8d6; border-radius: 10px; padding: .9rem; color: var(--ink); background: #fffefa; font-family: "Noto Serif TC", "Songti TC", serif; font-size: 1rem; line-height: 1.8; }
+.assessment-note { margin: .8rem 0 0; color: #765166; font-size: .82rem; line-height: 1.55; }
 .finish-panel { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; padding-top: 1rem; }
 .finish-panel p { flex: 1 0 100%; color: var(--muted); }
 .panel-footer { display: flex; justify-content: space-between; align-items: center; padding: 1rem .4rem; color: var(--muted); }
@@ -168,6 +176,8 @@ textarea:focus, input:focus { outline: 0; border-color: var(--teal) !important; 
   .outline-row { grid-template-columns: 1fr; }
   .import-banner, .draft-intro { align-items: stretch; flex-direction: column; }
   .import-banner .button, .draft-intro .button { width: 100%; }
+  .upgrade-heading { align-items: stretch; flex-direction: column; }
+  .upgrade-button { width: 100%; }
   .essay-field textarea { min-height: 28rem; }
   .step-panel { border-radius: 14px; padding: 1rem; }
   .step-heading { flex-direction: column; }
