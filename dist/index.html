@@ -19,7 +19,6 @@
     </div>
     <div class="header-actions">
       <span id="saveStatus" class="save-status" aria-live="polite">已自動儲存</span>
-      <button class="button ghost" id="printBtn" type="button">列印整理稿</button>
     </div>
   </header>
 
@@ -201,8 +200,8 @@
         </section>
 
         <div class="finish-panel">
-          <p id="finishMessage">完成檢核後，先下載 Word 檔，再前往 Padlet 上傳。</p>
-          <button class="button primary" id="finishBtn" type="button">完成學習單</button>
+          <p id="finishMessage" aria-live="polite">完成作文後，可儲存整理稿、下載 Word 檔，再前往 Padlet 上傳。</p>
+          <button class="button primary" id="saveDraftBtn" type="button">儲存整理稿</button>
           <button class="button word-button" id="downloadBtn" type="button">下載 Word 作文</button>
           <a class="button padlet-button" href="https://padlet.com/jufan07/11302-ga8jhughutasu9f5" target="_blank" rel="noopener noreferrer">前往 Padlet 上傳</a>
         </div>
@@ -221,10 +220,6 @@
     <button class="dialog-close" id="closeChart" type="button" aria-label="關閉圖表">×</button>
     <img src="assets/2030-core-skills.png" alt="放大的 2030 年核心技能散佈圖">
   </dialog>
-
-  <div id="celebration" class="celebration" hidden aria-live="polite">
-    <div><span aria-hidden="true">✓</span><h2>整理完成</h2><p>你已經把現在的自己、未來方向與行動連成一條清楚的路。</p><button class="button primary" id="closeCelebration" type="button">回到學習單</button></div>
-  </div>
 
   <script src="app.js"></script>
 </body>
