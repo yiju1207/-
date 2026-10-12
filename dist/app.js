@@ -305,6 +305,28 @@ function downloadReport() {
   setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1500);
 }
 
+function saveDraftPdf() {
+  save();
+  const escapeHtml = value => String(value || "").replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+  const report = escapeHtml(textReport());
+  const printable = `<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>${escapeHtml(state.className || "班級")}_${escapeHtml(state.studentName || "學生")}_作文整理稿</title><style>@page{size:A4;margin:1.8cm}*{box-sizing:border-box}body{margin:0;color:#29232b;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;font-size:11.5pt;line-height:1.75}h1{text-align:center;font-size:20pt;margin:0 0 .3cm}.report{white-space:pre-wrap;overflow-wrap:anywhere}</style></head><body><h1>從現在的自己走向未來｜作文整理稿</h1><div class="report">${report}</div></body></html>`;
+  const frame = document.createElement("iframe");
+  frame.title = "PDF 整理稿列印預覽";
+  frame.style.position = "fixed";
+  frame.style.width = "1px";
+  frame.style.height = "1px";
+  frame.style.opacity = "0";
+  frame.style.pointerEvents = "none";
+  frame.onload = () => {
+    frame.contentWindow.focus();
+    frame.contentWindow.print();
+    setTimeout(() => frame.remove(), 1500);
+  };
+  frame.srcdoc = printable;
+  document.body.append(frame);
+  $("#finishMessage").textContent = "PDF 整理稿已開啟；請在列印視窗選擇「儲存為 PDF」。";
+}
+
 function resetAll() {
   if (!confirm("確定要清除這台裝置上的所有作答嗎？此動作無法復原。")) return;
   localStorage.removeItem(STORAGE_KEY); location.reload();
@@ -329,11 +351,7 @@ $("#closeChart").addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
 
 $("#saveDraftBtn").addEventListener("click", () => {
-  save();
-  const checks = [1,2,3,4,5].filter(i => state[`check${i}`]).length;
-  $("#finishMessage").textContent = `✓ 整理稿已儲存在這台裝置（完成 ${checks}/5 項自我檢核）。接著可下載 Word 檔。`;
-  $("#saveDraftBtn").textContent = "已儲存整理稿";
-  setTimeout(() => { $("#saveDraftBtn").textContent = "儲存整理稿"; }, 1800);
+  saveDraftPdf();
 });
 
 renderSkills(); renderTraits(); renderActions(); bindSavedFields(); showStep(Number(state.currentStep) || 0); updateProgress(); updateConnection();
