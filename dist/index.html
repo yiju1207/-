@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="三年級一段作文互動學習單，從圖文閱讀、自我認識到文章架構。">
+  <title>從現在的自己走向未來｜作文互動學習單</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">跳到學習內容</a>
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">寫</span>
+      <div>
+        <p class="eyebrow">115 1 三年級一段作文</p>
+        <h1>從現在的自己走向未來</h1>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="saveStatus" class="save-status" aria-live="polite">已自動儲存</span>
+      <button class="button ghost" id="printBtn" type="button">列印整理稿</button>
+    </div>
+  </header>
+
+  <div class="progress-wrap" aria-label="整體完成度">
+    <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+    <span id="progressText">完成 0%</span>
+  </div>
+
+  <main id="workspace" class="shell">
+    <aside class="step-nav" aria-label="學習步驟">
+      <div class="student-card">
+        <label>班級<input data-save="className" autocomplete="organization-title" placeholder="例如 302"></label>
+        <label>姓名<input data-save="studentName" autocomplete="name" placeholder="請輸入姓名"></label>
+      </div>
+      <ol id="stepList">
+        <li><button type="button" data-step-target="0"><span>1</span><b>讀懂圖文資料</b><small>觀察與連結</small></button></li>
+        <li><button type="button" data-step-target="1"><span>2</span><b>認識現在的自己</b><small>特質與證據</small></button></li>
+        <li><button type="button" data-step-target="2"><span>3</span><b>選擇未來方向</b><small>理由與期待</small></button></li>
+        <li><button type="button" data-step-target="3"><span>4</span><b>規劃具體行動</b><small>步驟與調整</small></button></li>
+        <li><button type="button" data-step-target="4"><span>5</span><b>完成五段提綱</b><small>帶入前四步</small></button></li>
+        <li><button type="button" data-step-target="5"><span>6</span><b>統整完整作文</b><small>潤飾與下載</small></button></li>
+      </ol>
+      <button class="button danger-text" id="resetBtn" type="button">清除本機作答</button>
+    </aside>
+
+    <section class="lesson-area">
+      <article class="step-panel" data-step="0">
+        <div class="step-heading">
+          <div><p class="step-kicker">第一步</p><h2>讀懂圖文資料</h2><p>先掌握資料中的概念與關係，再決定自己的寫作方向。</p></div>
+          <span class="step-badge">觀察</span>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-toolbar">
+            <div><h3>2030 年核心技能</h3><p>點選圖片可放大，觀察橫軸、縱軸與四個象限。</p></div>
+            <button class="button small" id="zoomChart" type="button">放大圖表</button>
+          </div>
+          <button class="chart-button" id="chartButton" type="button" aria-label="放大 2030 年核心技能圖表">
+            <img src="assets/2030-core-skills.png" alt="2030 年核心技能散佈圖，呈現 2025 年核心技能比例與雇主預計到 2030 年技能使用量增加比例">
+          </button>
+        </div>
+
+        <div class="prompt-grid two">
+          <label class="field"><span>圖文資料的主題</span><small>這份資料主要在談什麼？</small><textarea data-save="chartTopic" data-required rows="3"></textarea></label>
+          <label class="field"><span>概念之間的關係</span><small>例如因果、現在與未來、選擇與結果。</small><textarea data-save="chartRelation" data-required rows="3"></textarea></label>
+        </div>
+
+        <fieldset class="skill-picker">
+          <legend>選出最能連結你的 1 至 3 項核心技能</legend>
+          <p>再點一次可取消。選完後，說明它與你的經驗有何關聯。</p>
+          <div id="skillChips" class="chips"></div>
+        </fieldset>
+
+        <label class="field"><span>與我的連結</span><small>哪一個概念或技能最能連結你的經驗或未來規劃？為什麼？</small><textarea data-save="chartConnection" data-required rows="4"></textarea></label>
+        <label class="field sentence"><span>一句話抓重點</span><textarea data-save="chartSentence" data-required rows="2" placeholder="這份圖文資料讓我想到，現在的我可以從……出發，朝……前進。"></textarea></label>
+      </article>
+
+      <article class="step-panel" data-step="1" hidden>
+        <div class="step-heading">
+          <div><p class="step-kicker">第二步</p><h2>認識現在的自己</h2><p>特質不能只靠形容詞，要用經驗、表現、感受或他人回饋證明。</p></div>
+          <span class="step-badge">舉證</span>
+        </div>
+
+        <div class="section-title"><h3>我的特質證據庫</h3><button class="text-button" id="addTrait" type="button">＋ 新增一筆</button></div>
+        <div id="traitRows" class="repeat-list"></div>
+
+        <div class="subsection">
+          <h3>挑出最能代表我的一個經驗</h3>
+          <div class="prompt-grid two">
+            <label class="field"><span>事情背景</span><small>時間、地點、人物、當時的任務或問題。</small><textarea data-save="storyBackground" data-required rows="4"></textarea></label>
+            <label class="field"><span>我的行動</span><small>我實際做了什麼？如何處理或練習？</small><textarea data-save="storyAction" data-required rows="4"></textarea></label>
+            <label class="field"><span>結果與回饋</span><small>發生了什麼變化？別人怎麼說？我有什麼感受？</small><textarea data-save="storyResult" rows="4"></textarea></label>
+            <label class="field"><span>我對自己的認識</span><small>這件事證明我具備什麼特質、能力或興趣？</small><textarea data-save="storyInsight" data-required rows="4"></textarea></label>
+          </div>
+        </div>
+
+        <div class="rewrite-tool">
+          <div><span class="label">較空泛的寫法</span><p>我很認真，也有能力。</p></div>
+          <div><span class="label">改成有證據的寫法</span><textarea data-save="evidenceSentence" rows="3" placeholder="在……的經驗中，我曾……。這讓我發現自己……。"></textarea></div>
+          <button class="button small" id="buildEvidenceSentence" type="button">帶入上方內容</button>
+        </div>
+      </article>
+
+      <article class="step-panel" data-step="2" hidden>
+        <div class="step-heading">
+          <div><p class="step-kicker">第三步</p><h2>選擇未來方向</h2><p>除了寫想做什麼，也要交代選擇的理由與期待。</p></div>
+          <span class="step-badge">選擇</span>
+        </div>
+        <div class="prompt-grid two">
+          <label class="field"><span>我想嘗試的方向</span><small>下一個人生階段，我想學習、參與或挑戰什麼？</small><textarea data-save="futureDirection" data-required rows="4"></textarea></label>
+          <label class="field"><span>選擇理由</span><small>它和我的特質、能力、興趣、經驗或生活見聞有何關聯？</small><textarea data-save="futureReason" data-required rows="4"></textarea></label>
+          <label class="field"><span>我重視的價值</span><small>這個選擇反映我在意什麼？</small><textarea data-save="futureValue" rows="4"></textarea></label>
+          <label class="field"><span>我的期待</span><small>我希望得到哪些學習、改變或成果？</small><textarea data-save="futureHope" data-required rows="4"></textarea></label>
+          <label class="field wide"><span>可能遇到的困難</span><small>我目前還缺少什麼？可能有哪些阻礙？</small><textarea data-save="futureChallenge" rows="4"></textarea></label>
+        </div>
+        <div class="connection-preview">
+          <p class="label">選擇是否前後一致</p>
+          <p id="connectionPreview">完成第二步與第三步後，這裡會整理「現在的我」與「未來方向」之間的連結。</p>
+        </div>
+      </article>
+
+      <article class="step-panel" data-step="3" hidden>
+        <div class="step-heading">
+          <div><p class="step-kicker">第四步</p><h2>把努力寫成可行的做法</h2><p>行動要具體到能看出要學什麼、如何練習、何時完成、需要誰協助。</p></div>
+          <span class="step-badge">行動</span>
+        </div>
+        <div id="actionRows" class="action-board"></div>
+        <div class="subsection">
+          <h3>遇到困難時的調整</h3>
+          <label class="field"><span>我的備用方案</span><textarea data-save="adjustment" data-required rows="4" placeholder="如果……，我會先……；仍無法解決時，我會向……尋求協助，並改用……的方法。"></textarea></label>
+        </div>
+        <details class="hint-box"><summary>怎樣才算具體？</summary><p>把「我要努力讀書」改成「每週二、四各練習三題閱讀題，完成後請同學和老師協助檢查錯誤原因」。</p></details>
+      </article>
+
+      <article class="step-panel" data-step="4" hidden>
+        <div class="step-heading">
+          <div><p class="step-kicker">第五步</p><h2>完成五段式作文提綱</h2><p>按下「帶入前四步」，先把已完成的素材放進適合的段落，再修改成自己的語氣。</p></div>
+          <span class="step-badge">組織</span>
+        </div>
+
+        <div class="import-banner">
+          <div><span aria-hidden="true">✦</span><p><b>不用重新抄寫</b><small>系統會依照段落功能，整理第一至第四步的文字。</small></p></div>
+          <button class="button primary" id="importOutlineBtn" type="button">帶入前四步的內容</button>
+        </div>
+
+        <div class="outline-list">
+          <label class="outline-row tone-1"><span><b>第一段</b><small>排比引題</small><em>用三個相同句型寫出對未來的想像。</em></span><textarea data-save="outline1" data-required rows="4" placeholder="我想成為……的人，我想成為……的人，我也想成為……的人。再帶入圖文資料的啟發。"></textarea></label>
+          <label class="outline-row tone-2"><span><b>第二段</b><small>圖文理解</small><em>說明核心技能與自己的連結。</em></span><textarea data-save="outline2" data-required rows="4" placeholder="圖表告訴我……，其中……最能讓我聯想到自己。"></textarea></label>
+          <label class="outline-row tone-3"><span><b>第三段</b><small>現在的我</small><em>用具體經驗證明特質或能力。</em></span><textarea data-save="outline3" data-required rows="4" placeholder="事情背景、我的行動、結果與我得到的自我認識。"></textarea></label>
+          <label class="outline-row tone-4"><span><b>第四段</b><small>未來方向</small><em>交代選擇、理由、價值與期待。</em></span><textarea data-save="outline4" data-required rows="4" placeholder="我想朝……前進，因為……；我期待……。"></textarea></label>
+          <label class="outline-row tone-5"><span><b>第五段</b><small>行動與展望</small><em>寫出具體做法、調整方法並回扣題意。</em></span><textarea data-save="outline5" data-required rows="4" placeholder="我會先……，接著……；遇到困難時……。我相信……。"></textarea></label>
+        </div>
+
+        <div class="summary-builder">
+          <div class="section-title"><h3>文章主旨一句話</h3><button class="button small" id="buildThesis" type="button">從前面內容組合</button></div>
+          <textarea data-save="thesis" data-required rows="3" placeholder="現在的我……，因此我想……，並準備透過……逐步實現。"></textarea>
+        </div>
+
+      </article>
+
+      <article class="step-panel" data-step="5" hidden>
+        <div class="step-heading">
+          <div><p class="step-kicker">第六步</p><h2>統整成一篇五段作文</h2><p>系統會把第五步的提綱連接成完整草稿；請朗讀一次，再補上更真實的細節與感受。</p></div>
+          <span class="step-badge">成篇</span>
+        </div>
+
+        <div class="draft-builder">
+          <div class="draft-intro">
+            <div><p class="label">五級分寫作練習</p><h3>讓文章具備清楚主旨、具體事例與完整結構</h3><p>第一段會使用三個相同句型形成排比；其餘四段依序承接圖文、自我經驗、未來方向與行動。</p></div>
+            <button class="button primary" id="buildEssayBtn" type="button">統整五段作文</button>
+          </div>
+          <label class="field essay-field"><span>我的完整作文</span><small>這是可編輯的草稿。請確認內容符合自己的真實經驗，並加入細節。</small><textarea data-save="articleDraft" data-required rows="24" placeholder="完成第五步後，按下「統整五段作文」。"></textarea></label>
+        </div>
+
+        <fieldset class="checklist">
+          <legend>完成前自我檢核</legend>
+          <label><input type="checkbox" data-save="check1">第一段使用三個相同句型形成排比，並清楚帶出主題。</label>
+          <label><input type="checkbox" data-save="check2">我用具體經驗證明現在的特質、能力或興趣。</label>
+          <label><input type="checkbox" data-save="check3">我交代未來規劃的理由，也寫出自己的想法或期待。</label>
+          <label><input type="checkbox" data-save="check4">我把努力寫成可執行的步驟，而不只寫「我會努力」。</label>
+          <label><input type="checkbox" data-save="check5">我的段落前後連貫，結尾能回扣題意與全文重點。</label>
+        </fieldset>
+
+        <div class="finish-panel">
+          <p id="finishMessage">完成檢核後，先下載 Word 檔，再前往 Padlet 上傳。</p>
+          <button class="button primary" id="finishBtn" type="button">完成學習單</button>
+          <button class="button word-button" id="downloadBtn" type="button">下載 Word 作文</button>
+          <a class="button padlet-button" href="https://padlet.com/jufan07/11302-ga8jhughutasu9f5" target="_blank" rel="noopener noreferrer">前往 Padlet 上傳</a>
+        </div>
+        <p class="upload-reminder">提醒：請先下載並確認 Word 檔案，再到 Padlet 選擇「新增貼文」並上傳檔案。</p>
+      </article>
+
+      <div class="panel-footer">
+        <button class="button ghost" id="prevBtn" type="button">上一步</button>
+        <span id="stepCounter">1 / 6</span>
+        <button class="button primary" id="nextBtn" type="button">下一步</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="chartDialog" class="chart-dialog">
+    <button class="dialog-close" id="closeChart" type="button" aria-label="關閉圖表">×</button>
+    <img src="assets/2030-core-skills.png" alt="放大的 2030 年核心技能散佈圖">
+  </dialog>
+
+  <div id="celebration" class="celebration" hidden aria-live="polite">
+    <div><span aria-hidden="true">✓</span><h2>整理完成</h2><p>你已經把現在的自己、未來方向與行動連成一條清楚的路。</p><button class="button primary" id="closeCelebration" type="button">回到學習單</button></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
